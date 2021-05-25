@@ -1,0 +1,30 @@
+version: "3.5"
+services:
+  web:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    environment:  
+      - DATABASE_URL=psql://gatewayv2:gatewayv2@postgresql:5432/gatewayv2 # ENGINE://USER:PASSWORD@HOST:PORT/NAME
+       
+    # entrypoint: ["python", "manage.py","runserver"]
+    volumes:
+      - .:/app
+
+  db:
+    image: postgres:10.4
+    restart: unless-stopped
+    environment:
+        - POSTGRES_USER=test
+        - POSTGRES_PASSWORD=test
+        - POSTGRES_DB=test
+    ports:
+        - 5432:5432
+    volumes:
+        - postgres:/var/lib/postgresql/data
+    
+
+volumes:
+    postgres:
+    
